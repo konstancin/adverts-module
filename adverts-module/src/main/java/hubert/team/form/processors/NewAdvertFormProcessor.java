@@ -16,10 +16,10 @@ public class NewAdvertFormProcessor extends AbstractFormProcessor {
     protected void internalProcess(Content form, Map<String, Object> map) throws FormProcessorFailedException {
         Content advertsFolder = ContentUtil.getContent("website", "/konstancin/ogloszenia/");
         Content newAdvert = createNewContent(advertsFolder);
-        copyContentData("location", form, newAdvert);
-        copyContentData("title", form, newAdvert);
-        copyContentData("abstract", form, newAdvert);
-        copyContentData("advertTitle", form, newAdvert);
+        copyContentData("location", map, newAdvert);
+        copyContentData("title", map, newAdvert);
+        copyContentData("abstract", map, newAdvert);
+        copyContentData("advertTitle", map, newAdvert);
         setTemplate(newAdvert);
         save(newAdvert);
     }
@@ -40,9 +40,9 @@ public class NewAdvertFormProcessor extends AbstractFormProcessor {
         }
     }
 
-    private void copyContentData(String key, Content form, Content newAdvert) {
+    private void copyContentData(String key, Map<String, Object> map, Content newAdvert) {
         try {
-            newAdvert.setNodeData(key, form.getNodeData(key));
+            newAdvert.setNodeData(key, map.get(key));
         } catch (RepositoryException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +50,9 @@ public class NewAdvertFormProcessor extends AbstractFormProcessor {
 
     private Content createNewContent(Content advertsFolder) {
         try {
-            Content newAdvert =  advertsFolder.createContent("bartek", ItemType.FOLDER);
+            advertsFolder.save();
+            Content newAdvert =  advertsFolder.createContent("bartek", ItemType.CONTENT);
+            advertsFolder.save();
             newAdvert.save();
             return newAdvert;
         } catch (RepositoryException e) {
