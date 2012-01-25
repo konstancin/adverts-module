@@ -6,7 +6,7 @@
   <description>${project.description}</description>
   <class>hubert.team.AdvertModule</class>
   <versionHandler>hubert.team.setup.AdvertModuleVersionHandler</versionHandler>
-  <version>1.6-SNAPSHOT</version>
+  <version>2.5-SNAPSHOT</version>
 
   <dependencies>
     <dependency>
